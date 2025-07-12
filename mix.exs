@@ -24,11 +24,11 @@ defmodule Todo.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:ecto_sql, "~> 3.10"},
-      {:ecto_sqlite3, ">= 0.0.0"},
-      # {:tzdata, "~> 1.1"},
-      {:timex, "~> 3.7"},
-      {:burrito, "~> 1.3"}
+      {:burrito, "~> 1.3"},
+      {:ecto_sql, "~> 3.13"},
+      {:ecto_sqlite3, "~> 0.21.0"},
+      {:timex, "~> 3.7"}
+      # {:tzdata, "~> 1.1"}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
@@ -54,8 +54,8 @@ defmodule Todo.MixProject do
         steps: [:assemble, &Burrito.wrap/1],
         burrito: [
           targets: [
-            # macos: [os: :darwin, cpu: :x86_64]
             linux: [os: :linux, cpu: :x86_64]
+            # macos: [os: :darwin, cpu: :x86_64]
             # windows: [os: :windows, cpu: :x86_64]
           ]
         ]

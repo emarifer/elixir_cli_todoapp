@@ -74,9 +74,7 @@ defmodule Todo do
   end
 
   defp list_items do
-    list = Task.get_all_tasks()
-
-    case list do
+    case Task.get_all_tasks() do
       [] ->
         IO.puts(format([:light_magenta, :bright, "\nYou don't have any saved tasks yet.\n"]))
         loop()
@@ -123,12 +121,9 @@ defmodule Todo do
 
       l ->
         Enum.each(l, &Helper.display_item/1)
+        # Helper.display_list(l)
         loop()
     end
-
-    # Helper.display_list(list_found)
-
-    loop()
   end
 
   defp complete do

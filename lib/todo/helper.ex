@@ -19,7 +19,8 @@ defmodule Todo.Helper do
     widths =
       Enum.zip(cols)
       |> Enum.map(&Tuple.to_list/1)
-      |> Enum.map(&(Enum.max(&1) + 1))
+      |> Enum.map(&(Enum.max(&1) + 2))
+      |> Enum.map(&if &1 < 13, do: 13, else: &1)
       |> List.to_tuple()
 
     line =
@@ -137,12 +138,7 @@ defmodule Todo.Helper do
 
   # defp center(chars, width, c \\ ?\s) when length(chars) < width
   defp center(chars, width, c \\ ?\s) do
-    fill =
-      if length(chars) < width do
-        width - length(chars)
-      else
-        length(chars) - width
-      end
+    fill = width - length(chars)
 
     s = List.duplicate(c, div(fill, 2))
     a = List.duplicate(c, rem(fill, 2))

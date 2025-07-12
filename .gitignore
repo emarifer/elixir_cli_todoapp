@@ -24,3 +24,5 @@ todo-*.tar
 
 .elixir_ls
 burrito_out
+
+todo_dev.*
