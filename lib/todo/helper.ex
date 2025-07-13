@@ -101,8 +101,8 @@ defmodule Todo.Helper do
     IO.puts(IO.ANSI.format([:cyan, :bright, delimiter]))
   end
 
-  def get_input_data(request, options \\ []) do
-    color = Keyword.get(options, :color, :light_blue)
+  def get_input_data(request, opts \\ []) when is_list(opts) do
+    color = Keyword.get(opts, :color, :light_blue)
 
     IO.puts(
       format([if(color == :warning, do: color(5, 2, 0), else: color), :bright, "\n#{request}:"])
