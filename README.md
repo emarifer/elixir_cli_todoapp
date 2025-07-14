@@ -4,10 +4,9 @@
 
 ### Example CLI to-do list application written in Elixir with SQLite3 database persistence.
 
-<br /><br />
+<br />
 
-> 🚧 This is a work in progress and therefore you should expect that the
-> application may not have all the features at this moment.
+<img src="docs/todo_cli_app-demo.gif" width="60%">
 
 <br />
   
@@ -15,7 +14,7 @@
 
 </div>
 
-<hr />
+---
 
 ### Features 🚀:
 

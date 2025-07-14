@@ -121,7 +121,7 @@ defmodule Todo.Helper do
     IO.puts(format([:light_red, :bright, "\n#{msg}"]))
   end
 
-  def convert_datetime(dt) do
+  defp convert_datetime(dt) do
     # Only works on Linux:
     # {zone, result} = System.shell("timedatectl | grep 'Time zone' | awk '{print $3}'")
     # tzone = if result == 0, do: String.trim(zone)
