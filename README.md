@@ -8,7 +8,7 @@
 
 <img src="docs/todo_cli_app-demo.gif" width="60%">
 
-<br />
+<br /><br />
   
 ![GitHub License](https://img.shields.io/github/license/emarifer/elixir_cli_todoapp) ![Static Badge](https://img.shields.io/badge/Elixir-%3E=1.18-6e4a7e) ![Static Badge](https://img.shields.io/badge/Erlang/OTP-%3E=27-B83998)
 
@@ -22,7 +22,7 @@ Elixir is an incredibly robust and elegant programming language. It excels above
 
 Elixir is designed to do a lot of things really well but it’s hard to beat languages that were designed specifically to be good for `CLI tools` without trading off the things that make it great for all other stuff. Languages like `Rust`, `Zig`, and especially `Go`, due to their ease of use (remember that the powerful Docker CLI and the Docker system itself are written in Go), are more suitable for creating CLI tools. However, when building CLI tools with Elixir, you'll rarely need to use its powerful features and will instead have to deal with the occasional inconvenience.
 
-Among other things, we can mention the boot times required by Elixir applications, given that the `BEAM virtual machine` must be started (between 200 and 500 ms, depending on the machine it's running on). If the application is used as a simple interactive tool, this isn't a problem, but if it's used as a looped command within a shell script, this boot time would be an unacceptable hindrance.
+Among other things, we can mention the boot times required by Elixir applications, given that the `BEAM virtual machine` must be started (between 200 and 500 ms, depending on the machine on which it is running, but less than the `JVM` 😅). If the application is used as a simple interactive tool, this isn't a problem, but if it's used as a looped command within a shell script, this boot time would be an unacceptable hindrance.
 
 The other problem is the lower portability resulting from compilation artifacts. With the aforementioned languages, we get a single executable and, in the case of Go, very easy cross-compilation for various operating systems. With Elixir, we have several options, each with its pros and cons. With Elixir releases, we get a folder that includes not only the compiled code but also the `Erlang virtual machine` and its default execution environment, so they do not need to be installed on the host where the application is run. However, this solution works better with [`daemons`](https://en.wikipedia.org/wiki/Daemon_(computing)) than with foreground CLI applications. They can only run on the same OS and with the same version as the one on which they were compiled, and they are not a single executable but a folder. [`Mix Escript`](https://hexdocs.pm/mix/1.18.4/Mix.Tasks.Escript.Build.html) does provide a single, lighter executable but requires the host to have `Erlang/OTP` installed. This looks perfect but it has one downside: it doesn't support projects or dependencies that need to store or read from the `priv` directory, as is the case of the [`tzdata`](https://github.com/lau/tzdata) library, which we use in this project as a dependency of another library, `Timex` (it connects to the Internet at startup and downloads the time zone update from the [`IANA tz database`](https://www.iana.org/time-zones)).
 
@@ -45,22 +45,29 @@ There are many situations in which a CLI application written in Elixir will not 
 
 ### Getting Started 👨‍🚀:
 
-### Installation
+- #### <ins>Installing the application on our system (Window, Linux only):</ins>
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `todo` to your list of dependencies in `mix.exs`:
+  The easiest way is to download the executable for your system from [here](https://github.com/emarifer/elixir_cli_todoapp/releases) and run it from the terminal in the download directory.
 
-```elixir
-def deps do
-  [
-    {:todo, "~> 0.1.0"}
-  ]
-end
-```
+  This action will automatically create a hidden folder (`.burrito/todo_cli_app_erts-15.2.7_0.1.0/`) in the user's applications configuration directory. This folder basically contains the Erlang virtual machine and the runtime, so the application contains everything necessary to start without having to install anything first. Likewise, another folder (`todo_cli_app/`) will be created in the user configuration folder containing the `SQLite3` database storage file, and the migrations to create the table that will store the application data will be automatically executed. Once this is done, our application will start.
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/todo>.
+  Obviously, for user convenience, it's best to place the downloaded executable in any folder you want, but set its path in the system environment variable (`PATH`). Now, whenever we type the name of the executable (`todo_cli_app`) in the terminal, the application will launch.
+
+  When we want to completely uninstall the application from our system, simply run the following command in the folder where the executable is located:
+
+  ```
+  $ ./my-binary maintenance uninstall
+  ```
+
+  This will delete the `.burrito/todo_cli_app_erts-15.2.7_0.1.0/` folder. Next, we can delete the executable itself and the `todo_cli_app/` folder in our configuration directory, where the database file is stored. Once all this is done, the application will be completely removed from the system.
+
+
+- #### <ins>Compiling the application ourselves:</ins>
+
+  - Prerequisites:
+    ### TODO
+  
+
 
 ---
 

@@ -54,9 +54,9 @@ defmodule Todo.MixProject do
         steps: [:assemble, &Burrito.wrap/1],
         burrito: [
           targets: [
-            linux: [os: :linux, cpu: :x86_64]
+            linux: [os: :linux, cpu: :x86_64],
             # macos: [os: :darwin, cpu: :x86_64]
-            # windows: [os: :windows, cpu: :x86_64]
+            windows: [os: :windows, cpu: :x86_64]
           ]
         ]
       ]
@@ -66,3 +66,18 @@ end
 
 # REFERENCES:
 # https://www.jonathanychan.com/blog/statically-linking-an-elixir-command-line-application-using-burrito/
+
+# COMMANDS TO CREATE RELEASE (GitHub):
+# git tag v0.1.0 && git push origin v0.1.0
+# zip -9r todo_cli_app_windows_x86_64.zip *.txt dist/
+# https://blog.robertelder.org/intro-to-sha256sum-command/
+# sha256sum todo_cli_app_windows_x86_64.zip ==>
+# fdae2d396e7741e94b898756a46f210e24e21adb3eae353dc72e63da1daad75a
+# echo "fdae2d396e7741e94b898756a46f210e24e21adb3eae353dc72e63da1daad75a todo_cli_app_windows_x86_64.zip" | sha256sum -c
+# https://askubuntu.com/questions/1202208/checking-sha256-checksum
+# # Create the .tar.xz file
+# tar -czvf todo_cli_app_linux_x86_64.tar.xz usr/ LICENSE.txt
+# sha256sum todo_cli_app_linux_x86_64.tar.xz ==>
+# e10b3af27f7d6846de6b81dd86db9d2143882eca1de8c7beb6f0355ade74eb1b
+# sha256sum *zip *tar.xz > sha256sums.txt (create .txt file)
+# sha256sum -c sha256sums.txt (check .txt file)
