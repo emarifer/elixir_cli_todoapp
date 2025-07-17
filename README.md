@@ -67,8 +67,7 @@ There are many situations in which a CLI application written in Elixir will not 
   - Prerequisites:
     
     Obviously, you'll need to install [`Elixir`](https://elixir-lang.org/install.html) and [`Erlang/OTP`](https://www.erlang.org/) (because you'll need to use its virtual machine). I recommend doing this through [`asdf`](https://asdf-vm.com/guide/getting-started.html). This will allow you to have multiple versions of Elixir installed and easily switch between them per project or set a global version for the system.
-
-    >[!NOTE]
+    
     >***I advise you to follow the recommendations made [here](https://github.com/emarifer/elixir-desktop-todoapp?tab=readme-ov-file#prerequisites) to create a more complete Erlang/OTP installation that will give you more options when developing with Elixir/Erlang.***
 
     If you want to package the application into a single statically linked binary for distribution, you'll need to install [Zig](https://ziglang.org/download/), since the `burrito` library creates a wrapper around the Elixir/Erlang application and packages it and all its dependencies into a single binary. It's important that the Zig version is `0.14.0`. Doing so is very easy: just download the version, unzip the `tar.xz` or `zip` file corresponding to your system/architecture, and you can drop it anywhere on your system as long as you set the path to the resulting directory in the environment variable. Test to see if it works by running the following command in the terminal:
