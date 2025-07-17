@@ -65,9 +65,80 @@ There are many situations in which a CLI application written in Elixir will not 
 - #### <ins>Compiling the application ourselves:</ins>
 
   - Prerequisites:
-    ### TODO
-  
+    
+    Obviously, you'll need to install [`Elixir`](https://elixir-lang.org/install.html) and [`Erlang/OTP`](https://www.erlang.org/) (because you'll need to use its virtual machine). I recommend doing this through [`asdf`](https://asdf-vm.com/guide/getting-started.html). This will allow you to have multiple versions of Elixir installed and easily switch between them per project or set a global version for the system.
 
+    >[!NOTE]
+    >***I advise you to follow the recommendations made [here](https://github.com/emarifer/elixir-desktop-todoapp?tab=readme-ov-file#prerequisites) to create a more complete Erlang/OTP installation that will give you more options when developing with Elixir/Erlang.***
+
+    If you want to package the application into a single statically linked binary for distribution, you'll need to install [Zig](https://ziglang.org/download/), since the `burrito` library creates a wrapper around the Elixir/Erlang application and packages it and all its dependencies into a single binary. It's important that the Zig version is `0.14.0`. Doing so is very easy: just download the version, unzip the `tar.xz` or `zip` file corresponding to your system/architecture, and you can drop it anywhere on your system as long as you set the path to the resulting directory in the environment variable. Test to see if it works by running the following command in the terminal:
+
+    ```
+    $ zig version # ==> 0.14.0
+    ```
+
+    You will also need to have xz (on Linux/MacOS) or zip (on Windows), but this is usually already installed on your stock system.
+
+    Now you are ready to start!
+
+  - Build the binary:
+
+    Clone the repository and go to its directory and in your text editor open the [mix.exs](https://github.com/emarifer/elixir_cli_todoapp/blob/main/mix.exs#L51) file. In this file, modify the lines (commenting or uncommenting them) corresponding to the build targets you want.
+
+
+    ```elixir
+
+    defp releases do
+      [
+        todo_cli_app: [
+          steps: [:assemble, &Burrito.wrap/1],
+          burrito: [
+            targets: [
+              linux: [os: :linux, cpu: :x86_64],     # <==
+              # macos: [os: :darwin, cpu: :x86_64]   # <==
+              windows: [os: :windows, cpu: :x86_64]  # <==
+            ]
+          ]
+        ]
+      ]
+    end
+    ```
+
+    Cross-compiling from Linux/MacOS to any other target is well-tested and supported. However, cross-compiling from Windows may not always work. In any case, `burrito` is rapidly evolving, and these circumstances may change. For any questions or modifications to compilation options, I recommend that you carefully read the [`burrito`](https://hexdocs.pm/burrito/readme.html) library documentation.
+
+    Now in the root directory of the project run the command you would run to create any Elixir release:
+
+    ```
+    $ MIX_ENV=prod mix release
+    ```
+
+    The build may take more or less time depending on your machine and the number of targets you have set. Finally, a folder (burrito_out/) will be created in the project root, containing the executables. If you go into this folder and call them from the terminal:
+
+    ```
+    $ todo_cli_app_linux # e.g.
+    ```
+
+    The application will be installed, creating a hidden folder (`.burrito/todo_cli_app_erts-15.2.7_0.1.0/`) in the user's applications configuration directory, which contains the Erlang virtual machine and runtime. A folder (`todo_cli_app/`) will also be created in the user configuration directory, containing the `Sqlite3` database files. Next, the application will then start.
+
+
+  - Developing/modifying the application in `dev mode`:
+
+    If you have already cloned the repository you should follow the following steps.
+
+    In the `mix.exs` file there is an `aliases` for a Mix task (`mix setup`) that will execute the download of the dependencies, the creation of the Sqlite3 database (in the root of the project, as established in the `dev.exs` configuration file) and will run the migrations that create the `tasks` table in the database:
+
+    ```
+    $ mix setup
+    ```
+
+    Now all that remains is to start the application with the command:
+
+    ```
+    $ mix run --no-halt
+    ```
+
+    Every time we make a change to the code, for it to be applied, we must stop the execution of the BEAM by typing `Ctrl+C` and then `a` and then call the previous command again.
+    
 
 ---
 
