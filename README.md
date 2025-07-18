@@ -124,10 +124,10 @@ There are many situations in which a CLI application written in Elixir will not 
 
     If you have already cloned the repository you should follow the following steps.
 
-    In the `mix.exs` file there is an `aliases` for a Mix task (`mix setup`) that will execute the download of the dependencies, the creation of the Sqlite3 database (in the root of the project, as established in the `dev.exs` configuration file) and will run the migrations that create the `tasks` table in the database:
+    Download the necessary dependencies:
 
     ```
-    $ mix setup
+    $ mix deps.get
     ```
 
     Now all that remains is to start the application with the command:
@@ -135,6 +135,8 @@ There are many situations in which a CLI application written in Elixir will not 
     ```
     $ mix run --no-halt
     ```
+
+    This command will create the Sqlite3 database files (in the project root itself, as defined in the `dev.exs` file of the application development configuration), and the connection to it, will automatically execute the migrations and start the application itself.
 
     Every time we make a change to the code, for it to be applied, we must stop the execution of the BEAM by typing `Ctrl+C` and then `a` and then call the previous command again.
     
