@@ -139,7 +139,55 @@ There are many situations in which a CLI application written in Elixir will not 
     This command will create the Sqlite3 database files (in the project root itself, as defined in the `dev.exs` file of the application development configuration), and the connection to it, will automatically execute the migrations and start the application itself.
 
     Every time we make a change to the code, for it to be applied, we must stop the execution of the BEAM by typing `Ctrl+C` and then `a` and then call the previous command again.
-    
+
+
+- #### <ins>Just for fun:</ins>
+
+  Elixir and its built-in tool `Mix` offer the possibility of creating `Tasks` that, among other things, can help us automate actions that can always be tedious or error-prone.
+
+  If you are a user of any `Linux` distribution you have the possibility of using 2 `Mix` tasks that I have created for this purpose. The first one (`mix app.installer`) serves to create the executable by using Elixir `releases` and the `burrito` library (as we did above) but also copies the executable to the user applications directory (`your-user-folder/.local/bin/`), renames it (eliminating the `_linux` suffix) and adds the path of the executable to the `PATH` environment variable (in the `your-user-folder/.bashrc` file) reloading its contents. The second one (`mix app.uninstaller`) undoes the previous actions, also deleting the folder containing the database files.
+
+  In short, clone the repository and add the dependencies:
+
+  ```
+  $ mix deps.get
+  ```
+
+  If you want the compilation to take less time, comment out the line relative to the `Windows` target in the `mix.exs` file:
+
+
+  ```elixir
+
+  defp releases do
+    [
+      todo_cli_app: [
+        steps: [:assemble, &Burrito.wrap/1],
+        burrito: [
+          targets: [
+            linux: [os: :linux, cpu: :x86_64]
+            # macos: [os: :darwin, cpu: :x86_64]
+            # windows: [os: :windows, cpu: :x86_64]  # <==
+          ]
+        ]
+      ]
+    ]
+  end
+  ```
+
+  And now run the `Mix` task:
+
+  ```
+  $ mix app.installer
+  ```
+
+  To uninstall, run the following `Mix` task:
+
+  ```
+  $ mix app.uninstaller
+  ```
+
+  > ***Obviously, none of these actions (both compilation and configuration/installation) are possible without the `Elixir/Erlang` suite installed on your computer. That's why these actions are usually executed using `shell scripts` or `Makefiles`, and I've only included the files corresponding to these `Mix` tasks as a practical exercise.***
+  
 
 ---
 
