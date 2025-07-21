@@ -3,17 +3,26 @@ defmodule Mix.Tasks.App.Installer do
 
   @impl Mix.Task
   def run(_command_line_args) do
-    home = System.user_home()
-    app_path = Path.join([home, ".local/bin/"])
-
     Mix.env(:prod)
     Mix.Task.run("release")
 
-    Mix.Shell.cmd("cp ./burrito_out/todo_cli_app_linux #{app_path}/", &IO.write(&1))
+    Mix.Shell.cmd("_build/prod/rel/todo/bin/todo eval 'Todo.Release.migrate'", &IO.write(&1))
 
-    Mix.Shell.cmd("mv #{app_path}/todo_cli_app_linux #{app_path}/todo_cli_app", &IO.write(&1))
+    home = System.user_home()
+    app_path = Path.join([System.user_home(), ".local/bin/", "todo/bin/todo"])
 
-    filewriter("\nexport PATH=$PATH:$HOME/.local/bin/todo_cli_app", "#{home}/.bashrc")
+    run_content = """
+    #!/bin/bash
+
+    exec #{app_path} start
+    """
+
+    File.write!("_build/prod/rel/todo/todo", run_content)
+    File.chmod("_build/prod/rel/todo/todo", 0o777)
+
+    File.cp_r("_build/prod/rel/", Path.join([home, ".local/bin/"]))
+
+    filewriter("\nexport PATH=$PATH:$HOME/.local/bin/todo/", "#{home}/.bashrc")
 
     Mix.Shell.cmd(". #{home}/.bashrc", &IO.write(&1))
 

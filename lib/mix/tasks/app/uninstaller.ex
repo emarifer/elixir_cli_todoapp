@@ -6,19 +6,16 @@ defmodule Mix.Tasks.App.Uninstaller do
   @impl Mix.Task
   def run(_command_line_args) do
     home = System.user_home()
-    app_path = Path.join([home, ".local/bin/todo_cli_app"])
-    db_path = Path.join([home, ".config", "todo_cli_app"])
-
-    erts_folder_path =
-      Path.wildcard(Path.join([home, ".local/share/.burrito/", "todo_cli_app_*"]))
+    app_path = Path.join([home, ".local/bin/todo"])
+    db_path = Path.join([home, ".config", "todo"])
 
     File.rm_rf!(app_path)
     File.rm_rf!(db_path)
-    File.rm_rf!(erts_folder_path)
+    File.rm_rf!("_build/prod")
 
     File.read!("#{home}/.bashrc")
     |> String.split("\n")
-    |> Enum.filter(&(&1 != "export PATH=$PATH:$HOME/.local/bin/todo_cli_app"))
+    |> Enum.filter(&(&1 != "export PATH=$PATH:$HOME/.local/bin/todo/"))
     |> Enum.join("\n")
     |> Installer.filewriter("#{home}/.bashrc.new")
 

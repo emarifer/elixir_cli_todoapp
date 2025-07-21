@@ -10,10 +10,10 @@ defmodule Todo.Application do
     children = [
       # Starts a worker by calling: Todo.Worker.start_link(arg)
       # {Todo.Worker, arg}
-      {
-        Ecto.Migrator,
-        repos: Application.fetch_env!(:todo, :ecto_repos), skip: false
-      },
+      # {
+      #   Ecto.Migrator,
+      #   repos: Application.fetch_env!(:todo, :ecto_repos), skip: false
+      # },
       Todo.Repo,
       # {Task.Supervisor, name: Todo.TaskSupervisor},
       # Supervisor.child_spec({Task, fn -> Todo.run() end}, restart: :temporary)

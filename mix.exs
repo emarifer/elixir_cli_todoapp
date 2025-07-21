@@ -8,8 +8,8 @@ defmodule Todo.MixProject do
       elixir: "~> 1.18",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps(),
-      releases: releases()
+      deps: deps()
+      # releases: releases()
     ]
   end
 
@@ -24,7 +24,7 @@ defmodule Todo.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:burrito, "~> 1.3"},
+      # {:burrito, "~> 1.3"},
       {:ecto_sql, "~> 3.13"},
       {:ecto_sqlite3, "~> 0.21.0"},
       {:timex, "~> 3.7"}
@@ -48,20 +48,20 @@ defmodule Todo.MixProject do
     ]
   end
 
-  defp releases do
-    [
-      todo_cli_app: [
-        steps: [:assemble, &Burrito.wrap/1],
-        burrito: [
-          targets: [
-            linux: [os: :linux, cpu: :x86_64],
-            # macos: [os: :darwin, cpu: :x86_64]
-            windows: [os: :windows, cpu: :x86_64]
-          ]
-        ]
-      ]
-    ]
-  end
+  # defp releases do
+  #   [
+  #     todo_cli_app: [
+  #       steps: [:assemble, &Burrito.wrap/1],
+  #       burrito: [
+  #         targets: [
+  #           linux: [os: :linux, cpu: :x86_64],
+  #           # macos: [os: :darwin, cpu: :x86_64]
+  #           windows: [os: :windows, cpu: :x86_64]
+  #         ]
+  #       ]
+  #     ]
+  #   ]
+  # end
 end
 
 # REFERENCES:
